@@ -3,13 +3,12 @@ import { NextPage } from "next"
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
 import NavBar from "../components/NavBar"
-import { connected } from "process"
 import Disconnected from "../components/Disconnected"
 import Connected from "../components/Connected"
 import { useWallet } from "@solana/wallet-adapter-react"
 
 const Home: NextPage = () => {
-  const connected = useWallet();
+  const {connected} = useWallet();
 
   return (
     <div className={styles.container}>
@@ -22,8 +21,8 @@ const Home: NextPage = () => {
       <Box
         w="full"
         h="calc(100vh)"
-        bgImage={connected ? "" : "url(/home-background.svg)"}
-        bgColor={connected ? "gray" : ""}
+        bgImage={!connected ? "url(/home-background.svg)" : ""}
+        bgColor={connected ? "black" : ""}
         backgroundPosition="center"
       >
         <Stack w="full" h="calc(100vh)" justify="center">

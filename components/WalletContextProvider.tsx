@@ -1,4 +1,4 @@
-import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react"
+import { ConnectionProvider, useWallet, WalletProvider } from "@solana/wallet-adapter-react"
 import { GlowWalletAdapter, PhantomWalletAdapter, TorusWalletAdapter } from "@solana/wallet-adapter-wallets"
 import { clusterApiUrl } from "@solana/web3.js"
 import { FC, ReactNode, useCallback, useMemo } from "react"
@@ -16,6 +16,8 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const network = WalletAdapterNetwork.Devnet;
   const url = useMemo(() => clusterApiUrl(network), [network])
 
+  const isConnected = useWallet();
+
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
@@ -32,7 +34,7 @@ const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <ConnectionProvider endpoint={url}>
-      <WalletProvider wallets={wallets} onError={onError} autoConnect>
+      <WalletProvider wallets={wallets} onError={onError} >
         <WalletModalProviderDynamic>
           {children}
         </WalletModalProviderDynamic>
